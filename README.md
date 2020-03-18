@@ -6,8 +6,9 @@ docker-rabbitmq
 base on 3.7.x-management
 
 enabled plugins:
+rabbitmq_federation_management
 rabbitmq_delayed_message_exchange
 rabbitmq_message_timestamp
 rabbitmq_random_exchange
-rabbitmq_mqtt
 rabbitmq_stomp
+rabbitmq_mqtt

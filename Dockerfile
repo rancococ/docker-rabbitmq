@@ -1,5 +1,5 @@
-# from rabbitmq:3.7.16-management
-FROM rabbitmq:3.7.16-management
+# from rabbitmq:3.7.24-management
+FROM rabbitmq:3.7.24-management
 
 # maintainer
 MAINTAINER "rancococ" <rancococ@qq.com>
@@ -28,11 +28,12 @@ RUN echo "\nchange ubuntu source to huawei..." && \
     rm /tmp/rabbitmq_delayed_message_exchange.zip && \
     rm /tmp/rabbitmq_message_timestamp.zip && \
     echo "\nenable rabbitmq plugins..." && \
-    rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange \
+    rabbitmq-plugins enable --offline rabbitmq_federation_management \
+                                      rabbitmq_delayed_message_exchange \
                                       rabbitmq_message_timestamp \
                                       rabbitmq_random_exchange \
-                                      rabbitmq_mqtt \
-                                      rabbitmq_stomp
+                                      rabbitmq_stomp \
+                                      rabbitmq_mqtt
 
 # expose port 1883 5672 15672 25672 61613
 EXPOSE 1883 5672 15672 25672 61613
