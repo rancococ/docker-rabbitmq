@@ -1,12 +1,14 @@
-# from rabbitmq:3.7.24-management
-FROM rabbitmq:3.7.24-management
+# from rabbitmq:3.7.26-management
+FROM rabbitmq:3.7.26-management
 
 # maintainer
 MAINTAINER "rancococ" <rancococ@qq.com>
 
 # set arg info
-ARG rabbitmq_delayed_message_exchange_url=https://dl.bintray.com/rabbitmq/community-plugins/3.7.x/rabbitmq_delayed_message_exchange/rabbitmq_delayed_message_exchange-20171201-3.7.x.zip
-ARG rabbitmq_message_timestamp_url=https://dl.bintray.com/rabbitmq/community-plugins/3.7.x/rabbitmq_message_timestamp/rabbitmq_message_timestamp-20170830-3.7.x.zip
+#ARG rabbitmq_delayed_message_exchange_url=https://dl.bintray.com/rabbitmq/community-plugins/3.7.x/rabbitmq_delayed_message_exchange/rabbitmq_delayed_message_exchange-20171201-3.7.x.zip
+ARG rabbitmq_delayed_message_exchange_url=https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.8.0/rabbitmq_delayed_message_exchange-3.8.0.ez
+#ARG rabbitmq_message_timestamp_url=https://dl.bintray.com/rabbitmq/community-plugins/3.7.x/rabbitmq_message_timestamp/rabbitmq_message_timestamp-20170830-3.7.x.zip
+ARG rabbitmq_message_timestamp_url=https://github.com/rabbitmq/rabbitmq-message-timestamp/releases/download/v3.8.0/rabbitmq_message_timestamp-3.8.0.ez
 
 # set some env
 ENV DEBIAN_FRONTEND noninteractive
@@ -21,20 +23,6 @@ RUN echo "\nchange ubuntu source to huawei..." && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     echo "\ndownload rabbitmq plugins..." && \
-    curl -fsSL ${rabbitmq_delayed_message_exchange_url} -o /tmp/rabbitmq_delayed_message_exchange.zip && \
-    curl -fsSL ${rabbitmq_message_timestamp_url} -o /tmp/rabbitmq_message_timestamp.zip && \
-    unzip -o /tmp/rabbitmq_delayed_message_exchange.zip -d /plugins/ && \
-    unzip -o /tmp/rabbitmq_message_timestamp.zip -d /plugins/ && \
-    rm /tmp/rabbitmq_delayed_message_exchange.zip && \
-    rm /tmp/rabbitmq_message_timestamp.zip && \
-    echo "\nenable rabbitmq plugins..." && \
-    rabbitmq-plugins enable --offline rabbitmq_federation_management \
-                                      rabbitmq_delayed_message_exchange \
-                                      rabbitmq_message_timestamp \
-                                      rabbitmq_random_exchange \
-                                      rabbitmq_web_stomp \
-                                      rabbitmq_stomp \
-                                      rabbitmq_mqtt
-
-# expose port 1883 5672 15672 25672 61613
-EXPOSE 1883 5672 15672 25672 61613
+    curl -fsSL ${rabbitmq_delayed_message_exchange_url} -o /plugins/rabbitmq_delayed_message_exchange-3.8.0.ez && \
+    curl -fsSL ${rabbitmq_message_timestamp_url} -o /plugins/rabbitmq_message_timestamp-3.8.0.ez && \
+    echo "\ndone..."
